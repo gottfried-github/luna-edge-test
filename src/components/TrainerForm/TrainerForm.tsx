@@ -57,18 +57,22 @@ const TrainerForm = () => {
           label="Firstname"
           fieldData={register('firstname')}
           helperText="This information is required"
-          placeholder="Firstname"
           errorText={errors.firstname?.message}
+          placeholder="Firstname"
         />
         <TextInput
           label="Lastname"
           fieldData={register('lastname')}
           helperText="This information is required"
-          placeholder="Lastname"
           errorText={errors.lastname?.message}
+          placeholder="Lastname"
         />
         <PokemonsSelect
           value={pokemonsField.value}
+          label="Choose your pokemons"
+          helperText="This information is required"
+          errorText={errors.pokemons?.message}
+          placeholder="Choose your pokemons"
           onChange={pokemonsField.onChange}
           onBlur={pokemonsField.onBlur}
         />

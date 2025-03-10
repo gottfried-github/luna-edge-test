@@ -6,11 +6,23 @@ import Select from '../Select/Select'
 
 interface Props {
   value: PokemonListEntry[]
+  label?: string
+  errorText?: string
+  helperText?: string
+  placeholder?: string
   onChange: (v: PokemonListEntry[]) => void
   onBlur: () => void
 }
 
-const PokemonsSelect = ({ value, onChange, onBlur }: Props) => {
+const PokemonsSelect = ({
+  value,
+  label,
+  errorText,
+  helperText,
+  placeholder,
+  onChange,
+  onBlur,
+}: Props) => {
   const setError = useContext(ErrorContext)
 
   const [pokemons, setPokemons] = useState<PokemonListEntry[]>([])
@@ -59,6 +71,10 @@ const PokemonsSelect = ({ value, onChange, onBlur }: Props) => {
         value: pokemon.name,
         label: pokemon.name,
       }))}
+      label={label}
+      errorText={errorText}
+      helperText={helperText}
+      placeholder={placeholder}
       onChange={handleChange}
       onBlur={onBlur}
       options={options}
