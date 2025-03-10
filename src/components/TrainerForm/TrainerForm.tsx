@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { useForm, useController } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string, array } from 'yup'
+import { PokemonListEntry } from '../../types'
 import TextInput from '../TextInput/TextInput'
 import PokemonsSelect from '../PokemonsSelect/PokemonsSelect'
 
 type FormData = {
   firstname: string
   lastname: string
-  pokemons: string[]
+  pokemons: PokemonListEntry[]
 }
 
 const schema = object({

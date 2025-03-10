@@ -1,22 +1,36 @@
-import { useState, useEffect } from 'react'
-import { PokemonListEntry } from '../../types'
+import { useState, useEffect, useContext } from 'react'
+import { PokemonListEntry, SelectOption } from '../../types'
 import axios from '../../axios'
+import { ErrorContext } from '../../contexts'
 import Select from '../Select/Select'
 
 interface Props {
-  value: string[]
-  onChange: (v: string[]) => void
+  value: PokemonListEntry[]
+  onChange: (v: PokemonListEntry[]) => void
   onBlur: () => void
 }
 
 const PokemonsSelect = ({ value, onChange, onBlur }: Props) => {
-  const [options, setOptions] = useState<string[]>([])
+  const setError = useContext(ErrorContext)
+
+  const [pokemons, setPokemons] = useState<PokemonListEntry[]>([])
+  const [options, setOptions] = useState<SelectOption[]>([])
 
   useEffect(() => {
     const fetchPokemons = async () => {
-      const { data } = await axios('/pokemon?limit=100000&offset=0')
+      try {
+        const { data } = await axios('/pokemon?limit=100000&offset=0')
 
-      setOptions(data.results.map((pokemon: PokemonListEntry) => pokemon.name))
+        setPokemons(data.results)
+        setOptions(
+          data.results.map((pokemon: PokemonListEntry) => ({
+            value: pokemon.name,
+            label: pokemon.name,
+          }))
+        )
+      } catch (e) {
+        setError(e)
+      }
     }
 
     fetchPokemons()
@@ -24,7 +38,32 @@ const PokemonsSelect = ({ value, onChange, onBlur }: Props) => {
     // setOptions(['pokemon one', 'pokemon two', 'pokemon three', 'pokemon four', 'pokemon five'])
   }, [])
 
-  return <Select value={value} onChange={onChange} onBlur={onBlur} options={options} />
+  const handleChange = (chosenOptions: SelectOption[]) => {
+    onChange(
+      chosenOptions.map(chosenOption => {
+        const chosenPokemon = pokemons.find(pokemon => pokemon.name === chosenOption.value)
+
+        if (!chosenPokemon) {
+          setError(new Error("pokemon with given name doesn't exist"))
+          return undefined as unknown as PokemonListEntry
+        }
+
+        return chosenPokemon
+      })
+    )
+  }
+
+  return (
+    <Select
+      value={value.map(pokemon => ({
+        value: pokemon.name,
+        label: pokemon.name,
+      }))}
+      onChange={handleChange}
+      onBlur={onBlur}
+      options={options}
+    />
+  )
 }
 
 export default PokemonsSelect

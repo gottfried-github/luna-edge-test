@@ -1,19 +1,31 @@
-import { ChangeEvent } from 'react'
+import { useContext, ChangeEvent } from 'react'
+import { SelectOption } from '../../types'
+import { ErrorContext } from '../../contexts'
 
 interface Props {
-  value: string[]
-  options: string[]
-  onChange: (v: string[]) => void
+  value: SelectOption[]
+  options: SelectOption[]
+  onChange: (v: SelectOption[]) => void
   onBlur: () => void
 }
 
 const Select = ({ value, options, onChange, onBlur }: Props) => {
+  const setError = useContext(ErrorContext)
+
   const handleChoose = (ev: ChangeEvent<HTMLSelectElement>) => {
-    onChange([...value, ev.target.value])
+    const chosenOption = options.find(option => option.value === ev.target.value)
+
+    if (!chosenOption) {
+      setError(new Error("option with given value doesn't exist"))
+
+      return
+    }
+
+    onChange([...value, chosenOption])
   }
 
-  const handleDelete = (option: string) => {
-    onChange(value.filter(_option => _option !== option))
+  const handleDelete = (option: SelectOption) => {
+    onChange(value.filter(_option => _option.value !== option.value))
   }
 
   return (
@@ -21,7 +33,7 @@ const Select = ({ value, options, onChange, onBlur }: Props) => {
       <div>
         {value.map(optionChosen => (
           <div>
-            {optionChosen}
+            {optionChosen.label}
             <button
               onClick={() => {
                 handleDelete(optionChosen)
@@ -34,8 +46,8 @@ const Select = ({ value, options, onChange, onBlur }: Props) => {
       </div>
       <select onChange={handleChoose} onBlur={onBlur}>
         {options.map(option => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>
