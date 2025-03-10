@@ -3,7 +3,7 @@ import { useForm, useController } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { object, string, array } from 'yup'
 import TextInput from '../TextInput/TextInput'
-import Select from '../Select/Select'
+import PokemonsSelect from '../PokemonsSelect/PokemonsSelect'
 
 type FormData = {
   firstname: string
@@ -45,7 +45,7 @@ const TrainerForm = () => {
     <form onSubmit={handleSubmit(submitHandler)}>
       <TextInput label="Firstname" fieldData={register('firstname')} />
       <TextInput label="Lastname" fieldData={register('lastname')} />
-      <Select
+      <PokemonsSelect
         value={pokemonsField.value}
         onChange={pokemonsField.onChange}
         onBlur={pokemonsField.onBlur}
