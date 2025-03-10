@@ -5,7 +5,7 @@ import { ErrorContext } from '../../contexts'
 import Select from '../Select/Select'
 
 interface Props {
-  value: PokemonListEntry[]
+  chosenPokemons: PokemonListEntry[]
   label?: string
   errorText?: string
   helperText?: string
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const PokemonsSelect = ({
-  value,
+  chosenPokemons,
   label,
   errorText,
   helperText,
@@ -67,7 +67,7 @@ const PokemonsSelect = ({
 
   return (
     <Select
-      value={value.map(pokemon => ({
+      chosenOptions={chosenPokemons.map(pokemon => ({
         value: pokemon.name,
         label: pokemon.name,
       }))}

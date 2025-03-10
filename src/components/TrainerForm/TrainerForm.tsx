@@ -68,7 +68,7 @@ const TrainerForm = () => {
           placeholder="Lastname"
         />
         <PokemonsSelect
-          value={pokemonsField.value}
+          chosenPokemons={pokemonsField.value}
           label="Choose your pokemons"
           helperText="This information is required"
           errorText={errors.pokemons?.message}

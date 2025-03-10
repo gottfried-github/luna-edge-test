@@ -5,7 +5,7 @@ import ChevronDown from '../icons/ChevronDown'
 import XMark from '../icons/XMark'
 
 interface Props {
-  value: SelectOption[]
+  chosenOptions: SelectOption[]
   options: SelectOption[]
   label?: string
   errorText?: string
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Select = ({
-  value,
+  chosenOptions,
   options,
   label,
   errorText,
@@ -36,11 +36,11 @@ const Select = ({
       return
     }
 
-    onChange([...value, chosenOption])
+    onChange([...chosenOptions, chosenOption])
   }
 
   const handleDelete = (option: SelectOption) => {
-    onChange(value.filter(_option => _option.value !== option.value))
+    onChange(chosenOptions.filter(_option => _option.value !== option.value))
   }
 
   const handleDeleteAll = () => {
@@ -53,8 +53,8 @@ const Select = ({
       <div>
         <div className="relative flex h-10 items-center rounded-lg border border-neutral-500 px-4 hover:border-violet-700">
           <div className="flex items-center text-neutral-500">
-            {value.length
-              ? value.map(optionChosen => (
+            {chosenOptions.length
+              ? chosenOptions.map(optionChosen => (
                   <div>
                     {optionChosen.label}
                     <button
@@ -69,7 +69,7 @@ const Select = ({
               : placeholder || null}
           </div>
           <div className="absolute right-0 flex items-center gap-1 bg-neutral-50 pr-4 pl-2">
-            {value.length ? <XMark className="w-[18px]" onClick={handleDeleteAll} /> : null}
+            {chosenOptions.length ? <XMark className="w-[18px]" onClick={handleDeleteAll} /> : null}
             <ChevronDown className="w-[18px]" />
           </div>
         </div>
