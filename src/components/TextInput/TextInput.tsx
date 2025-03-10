@@ -3,6 +3,9 @@ import { ChangeHandler } from 'react-hook-form'
 
 interface Props {
   label: string
+  helperText?: string
+  errorText?: string
+  placeholder?: string
   fieldData: {
     name: string
     ref: Ref<HTMLInputElement>
@@ -11,11 +14,19 @@ interface Props {
   }
 }
 
-const TextInput = ({ label, fieldData }: Props) => {
+const TextInput = ({ label, helperText, errorText, placeholder, fieldData }: Props) => {
   return (
-    <div>
-      <div>{label}</div>
-      <input type="text" {...fieldData} />
+    <div className="flex flex-col gap-2">
+      <label htmlFor={fieldData.name}>{label}</label>
+      <input
+        id={fieldData.name}
+        type="text"
+        className="w-full rounded-lg border border-neutral-500 px-4 py-2 hover:border-violet-700 focus:border-violet-700"
+        {...fieldData}
+        placeholder={placeholder}
+      />
+      {helperText && !errorText ? <div>{helperText}</div> : null}
+      {errorText ? <div className="text-red-600">{errorText}</div> : null}
     </div>
   )
 }

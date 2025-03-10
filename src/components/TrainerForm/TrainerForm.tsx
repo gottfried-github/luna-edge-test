@@ -13,8 +13,16 @@ type FormData = {
 }
 
 const schema = object({
-  firstname: string().required().min(2).max(5),
-  lastname: string().required().min(2).max(5),
+  firstname: string()
+    .required()
+    .min(2)
+    .max(12)
+    .matches(/^[a-zA-Z]*$/, 'this field should only use alphabetical characters'),
+  lastname: string()
+    .required()
+    .min(2)
+    .max(12)
+    .matches(/^[a-zA-Z]*$/, 'this field should only use alphabetical characters'),
   pokemons: array().required().length(4),
 })
 
@@ -43,16 +51,30 @@ const TrainerForm = () => {
   }, [errors])
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)}>
-      <TextInput label="Firstname" fieldData={register('firstname')} />
-      <TextInput label="Lastname" fieldData={register('lastname')} />
-      <PokemonsSelect
-        value={pokemonsField.value}
-        onChange={pokemonsField.onChange}
-        onBlur={pokemonsField.onBlur}
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <div className="mx-4 my-auto grow rounded-sm bg-neutral-50 p-6 shadow-md sm:m-auto sm:min-w-lg sm:grow-[unset]">
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit(submitHandler)}>
+        <TextInput
+          label="Firstname"
+          fieldData={register('firstname')}
+          helperText="This information is required"
+          placeholder="Firstname"
+          errorText={errors.firstname?.message}
+        />
+        <TextInput
+          label="Lastname"
+          fieldData={register('lastname')}
+          helperText="This information is required"
+          placeholder="Lastname"
+          errorText={errors.lastname?.message}
+        />
+        <PokemonsSelect
+          value={pokemonsField.value}
+          onChange={pokemonsField.onChange}
+          onBlur={pokemonsField.onBlur}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   )
 }
 
