@@ -1,4 +1,12 @@
-const XMark = ({ className, onClick }: { className?: string; onClick?: () => void }) => {
+import { MouseEvent } from 'react'
+
+const XMark = ({
+  className,
+  onClick,
+}: {
+  className?: string
+  onClick?: (ev: MouseEvent<SVGSVGElement>) => void
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-import { useMemo, useContext, ChangeEvent } from 'react'
+import { useState, useMemo, useContext, ChangeEvent } from 'react'
 import { SelectOption } from '../../types'
 import { ErrorContext } from '../../contexts'
 import SelectHead from './SelectHead'
@@ -24,26 +24,33 @@ const Select = ({
   onChange,
   onBlur,
 }: Props) => {
-  const setError = useContext(ErrorContext)
+  const [isOpen, setIsOpen] = useState(false)
+  const [optionsFilter, setOptionsFilter] = useState('')
+  // const setError = useContext(ErrorContext)
 
-  const optionsDeduped = useMemo(() => {
-    return options.filter(option => {
+  const optionsToRender = useMemo(() => {
+    const optionsFiltered = optionsFilter
+      ? options.filter(option => option.label.startsWith(optionsFilter))
+      : options
+
+    return optionsFiltered.filter(option => {
       const optionChosen = chosenOptions.find(_option => _option.value === option.value)
 
       return !optionChosen
     })
-  }, [options, chosenOptions])
+  }, [options, chosenOptions, optionsFilter])
 
-  const handleChoose = (ev: ChangeEvent<HTMLSelectElement>) => {
-    const chosenOption = options.find(option => option.value === ev.target.value)
+  const handleClose = () => {
+    setOptionsFilter('')
+    setIsOpen(false)
+  }
 
-    if (!chosenOption) {
-      setError(new Error("option with given value doesn't exist"))
-
-      return
+  const handleHeadClick = () => {
+    if (isOpen) {
+      handleClose()
+    } else {
+      setIsOpen(true)
     }
-
-    onChange([...chosenOptions, chosenOption])
   }
 
   const handleDeleteOption = (option: SelectOption) => {
@@ -54,23 +61,64 @@ const Select = ({
     onChange([])
   }
 
+  const handleChoose = (option: SelectOption) => {
+    onChange([...chosenOptions, option])
+  }
+
+  const handleFilterChange = (ev: ChangeEvent<HTMLInputElement>) => {
+    setOptionsFilter(ev.target.value)
+  }
+
+  const handleCloseAreaClick = () => {
+    handleClose()
+    onBlur()
+  }
+
   return (
     <div className="flex flex-col gap-2">
       {label ? <div>{label}</div> : null}
-      <div>
+      <div className="relative">
+        {isOpen ? (
+          <div
+            className="fixed top-0 left-0 h-screen w-screen"
+            onClick={handleCloseAreaClick}
+          ></div>
+        ) : null}
         <SelectHead
           chosenOptions={chosenOptions}
           onDeleteOption={handleDeleteOption}
           onDeleteAllOptions={handleDeleteAllOptions}
+          onClick={handleHeadClick}
+          isOpen={isOpen}
+          isError={!!errorText}
           placeholder={placeholder}
         />
-        <select onChange={handleChoose} onBlur={onBlur}>
-          {optionsDeduped.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        {isOpen ? (
+          <div className="absolute mt-2 flex w-full flex-col gap-2 rounded-lg bg-neutral-50 p-1.5 shadow-md">
+            <input
+              type="text"
+              placeholder="search"
+              className="w-full rounded-lg border border-neutral-500 px-4 py-2 hover:border-violet-700 focus:border-violet-700"
+              value={optionsFilter}
+              onChange={handleFilterChange}
+            />
+            <div className="max-h-[150px] overflow-auto">
+              {optionsToRender.map(option => (
+                <div
+                  key={option.value}
+                  onClick={() => {
+                    handleChoose(option)
+                    handleClose()
+                    onBlur()
+                  }}
+                  className="px-4 py-0.5 hover:bg-stone-200"
+                >
+                  {option.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
       {helperText && !errorText ? <div>{helperText}</div> : null}
       {errorText ? <div className="text-red-600">{errorText}</div> : null}
