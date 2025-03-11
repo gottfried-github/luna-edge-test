@@ -2,6 +2,7 @@ import { useState, useMemo, useContext, ChangeEvent } from 'react'
 import { SelectOption } from '../../types'
 import { ErrorContext } from '../../contexts'
 import SelectHead from './SelectHead'
+import SelectDropdown from './SelectDropdown'
 
 interface Props {
   chosenOptions: SelectOption[]
@@ -61,12 +62,14 @@ const Select = ({
     onChange([])
   }
 
-  const handleChoose = (option: SelectOption) => {
+  const handleChooseOption = (option: SelectOption) => {
     onChange([...chosenOptions, option])
+    handleClose()
+    onBlur()
   }
 
-  const handleFilterChange = (ev: ChangeEvent<HTMLInputElement>) => {
-    setOptionsFilter(ev.target.value)
+  const handleOptionsFilterChange = (v: string) => {
+    setOptionsFilter(v)
   }
 
   const handleCloseAreaClick = () => {
@@ -94,30 +97,12 @@ const Select = ({
           placeholder={placeholder}
         />
         {isOpen ? (
-          <div className="absolute mt-2 flex w-full flex-col gap-2 rounded-lg bg-neutral-50 p-1.5 shadow-md">
-            <input
-              type="text"
-              placeholder="search"
-              className="w-full rounded-lg border border-neutral-500 px-4 py-2 hover:border-violet-700 focus:border-violet-700"
-              value={optionsFilter}
-              onChange={handleFilterChange}
-            />
-            <div className="max-h-[150px] overflow-auto">
-              {optionsToRender.map(option => (
-                <div
-                  key={option.value}
-                  onClick={() => {
-                    handleChoose(option)
-                    handleClose()
-                    onBlur()
-                  }}
-                  className="px-4 py-0.5 hover:bg-stone-200"
-                >
-                  {option.label}
-                </div>
-              ))}
-            </div>
-          </div>
+          <SelectDropdown
+            options={optionsToRender}
+            onChooseOption={handleChooseOption}
+            optionsFilterValue={optionsFilter}
+            onOptionsFilterChange={handleOptionsFilterChange}
+          />
         ) : null}
       </div>
       {helperText && !errorText ? <div>{helperText}</div> : null}
