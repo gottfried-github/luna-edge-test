@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build --force-build-preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
@@ -33,7 +33,7 @@
     "@storybook/theming": "^8.6.4",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react": "^3.1.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "@vitest/browser": "^3.0.8",
     "@vitest/coverage-v8": "^3.0.8",
     "playwright": "^1.51.0",
@@ -41,7 +41,7 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "storybook": "^8.6.4",
     "typescript": "^4.9.3",
-    "vite": "^4.1.0",
+    "vite": "^6.2.1",
     "vitest": "^3.0.8"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
