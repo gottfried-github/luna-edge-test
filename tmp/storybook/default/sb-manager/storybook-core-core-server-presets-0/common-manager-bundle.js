@@ -1,0 +1,1 @@
+import '/home/osmomysl/base/house/operational/jobs/luna-edge/luna-edge-test-task-00/test-task/node_modules/@storybook/core/dist/core-server/presets/common-manager.js';

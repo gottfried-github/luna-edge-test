@@ -22,7 +22,7 @@ const ChosenOption = ({ option, onDelete }: Props) => {
 
   return (
     <div
-      className="flex items-center gap-1.5 rounded-3xl bg-stone-200 px-2.5 py-0.5 text-neutral-950"
+      className="flex items-center gap-1.5 rounded-3xl bg-stone-200 px-2.5 py-0.5 text-sm text-neutral-950"
       onClick={handleClick}
     >
       {option.label}

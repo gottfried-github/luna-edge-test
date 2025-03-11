@@ -1,0 +1,1 @@
+import '/home/osmomysl/base/house/operational/jobs/luna-edge/luna-edge-test-task-00/test-task/node_modules/@storybook/experimental-addon-test/dist/manager.js';
