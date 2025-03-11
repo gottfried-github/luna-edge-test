@@ -25,7 +25,7 @@ const SelectHead = ({
   placeholder,
 }: Props) => {
   const containerClassBase =
-    'relative flex h-10 items-center overflow-hidden rounded-lg border border-neutral-500 px-4 hover:border-violet-700'
+    'bg-neutral-50 relative flex h-10 items-center overflow-hidden rounded-lg border border-neutral-500 px-4 hover:border-violet-700'
 
   const handleDeleteAllClick = (ev: MouseEvent<SVGSVGElement>) => {
     ev.stopPropagation()
