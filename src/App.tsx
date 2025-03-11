@@ -6,7 +6,7 @@ function App() {
   const [error, setError] = useState<unknown | null>(null)
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full flex-col">
       <ErrorContext.Provider value={setError}>
         {error ? (
           <div>Something went wrong. Please, restart the application.</div>

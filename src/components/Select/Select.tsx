@@ -1,4 +1,4 @@
-import { useContext, ChangeEvent } from 'react'
+import { useMemo, useContext, ChangeEvent } from 'react'
 import { SelectOption } from '../../types'
 import { ErrorContext } from '../../contexts'
 import SelectHead from './SelectHead'
@@ -25,6 +25,14 @@ const Select = ({
   onBlur,
 }: Props) => {
   const setError = useContext(ErrorContext)
+
+  const optionsDeduped = useMemo(() => {
+    return options.filter(option => {
+      const optionChosen = chosenOptions.find(_option => _option.value === option.value)
+
+      return !optionChosen
+    })
+  }, [options, chosenOptions])
 
   const handleChoose = (ev: ChangeEvent<HTMLSelectElement>) => {
     const chosenOption = options.find(option => option.value === ev.target.value)
@@ -57,7 +65,7 @@ const Select = ({
           placeholder={placeholder}
         />
         <select onChange={handleChoose} onBlur={onBlur}>
-          {options.map(option => (
+          {optionsDeduped.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

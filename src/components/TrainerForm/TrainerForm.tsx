@@ -51,7 +51,7 @@ const TrainerForm = () => {
   }, [errors])
 
   return (
-    <div className="mx-4 my-auto grow rounded-sm bg-neutral-50 p-6 shadow-md sm:m-auto sm:min-w-lg sm:grow-[unset]">
+    <div className="mx-4 my-auto rounded-sm bg-neutral-50 p-6 shadow-md sm:m-auto sm:w-lg">
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(submitHandler)}>
         <TextInput
           label="Firstname"
