@@ -1,8 +1,7 @@
 import { useContext, ChangeEvent } from 'react'
 import { SelectOption } from '../../types'
 import { ErrorContext } from '../../contexts'
-import ChevronDown from '../icons/ChevronDown'
-import XMark from '../icons/XMark'
+import SelectHead from './SelectHead'
 
 interface Props {
   chosenOptions: SelectOption[]
@@ -39,11 +38,11 @@ const Select = ({
     onChange([...chosenOptions, chosenOption])
   }
 
-  const handleDelete = (option: SelectOption) => {
+  const handleDeleteOption = (option: SelectOption) => {
     onChange(chosenOptions.filter(_option => _option.value !== option.value))
   }
 
-  const handleDeleteAll = () => {
+  const handleDeleteAllOptions = () => {
     onChange([])
   }
 
@@ -51,28 +50,12 @@ const Select = ({
     <div className="flex flex-col gap-2">
       {label ? <div>{label}</div> : null}
       <div>
-        <div className="relative flex h-10 items-center rounded-lg border border-neutral-500 px-4 hover:border-violet-700">
-          <div className="flex items-center text-neutral-500">
-            {chosenOptions.length
-              ? chosenOptions.map(optionChosen => (
-                  <div>
-                    {optionChosen.label}
-                    <button
-                      onClick={() => {
-                        handleDelete(optionChosen)
-                      }}
-                    >
-                      delete
-                    </button>
-                  </div>
-                ))
-              : placeholder || null}
-          </div>
-          <div className="absolute right-0 flex items-center gap-1 bg-neutral-50 pr-4 pl-2">
-            {chosenOptions.length ? <XMark className="w-[18px]" onClick={handleDeleteAll} /> : null}
-            <ChevronDown className="w-[18px]" />
-          </div>
-        </div>
+        <SelectHead
+          chosenOptions={chosenOptions}
+          onDeleteOption={handleDeleteOption}
+          onDeleteAllOptions={handleDeleteAllOptions}
+          placeholder={placeholder}
+        />
         <select onChange={handleChoose} onBlur={onBlur}>
           {options.map(option => (
             <option key={option.value} value={option.value}>
