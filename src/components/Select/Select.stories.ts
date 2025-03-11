@@ -115,3 +115,21 @@ export const Error: Story = {
     onBlur: () => {},
   },
 }
+
+export const Disabled: Story = {
+  args: {
+    chosenOptions: [
+      {
+        value: 'bulbasaur',
+        label: 'bulbasaur',
+      },
+    ],
+    options: demoOptions,
+    label: 'Choose your pokemons',
+    helperText: 'This information is required',
+    placeholder: 'Choose your pokemons',
+    disabled: true,
+    onChange: () => {},
+    onBlur: () => {},
+  },
+}

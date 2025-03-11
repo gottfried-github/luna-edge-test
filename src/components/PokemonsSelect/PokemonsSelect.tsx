@@ -10,6 +10,7 @@ interface Props {
   errorText?: string
   helperText?: string
   placeholder?: string
+  disabled?: boolean
   onChange: (v: PokemonListEntry[]) => void
   onBlur: () => void
 }
@@ -20,6 +21,7 @@ const PokemonsSelect = ({
   errorText,
   helperText,
   placeholder,
+  disabled,
   onChange,
   onBlur,
 }: Props) => {
@@ -46,8 +48,6 @@ const PokemonsSelect = ({
     }
 
     fetchPokemons()
-
-    // setOptions(['pokemon one', 'pokemon two', 'pokemon three', 'pokemon four', 'pokemon five'])
   }, [])
 
   const handleChange = (chosenOptions: SelectOption[]) => {
@@ -75,6 +75,7 @@ const PokemonsSelect = ({
       errorText={errorText}
       helperText={helperText}
       placeholder={placeholder}
+      disabled={disabled}
       onChange={handleChange}
       onBlur={onBlur}
       options={options}

@@ -9,6 +9,7 @@ interface Props {
   errorText?: string
   helperText?: string
   placeholder?: string
+  disabled?: boolean
   onChange: (v: SelectOption[]) => void
   onBlur: () => void
 }
@@ -20,6 +21,7 @@ const SelectStoriesWrapper = ({
   errorText,
   helperText,
   placeholder,
+  disabled,
   onChange,
   onBlur,
 }: Props) => {
@@ -37,6 +39,7 @@ const SelectStoriesWrapper = ({
       errorText={errorText}
       helperText={helperText}
       placeholder={placeholder}
+      disabled={disabled}
       onChange={handleChange}
       onBlur={onBlur}
     />

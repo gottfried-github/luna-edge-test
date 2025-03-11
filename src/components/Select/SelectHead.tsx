@@ -13,6 +13,7 @@ interface Props {
   isOpen: boolean
   isError?: boolean
   placeholder?: string
+  disabled?: boolean
 }
 
 const SelectHead = ({
@@ -23,9 +24,16 @@ const SelectHead = ({
   isOpen,
   isError,
   placeholder,
+  disabled,
 }: Props) => {
   const containerClassBase =
-    'bg-neutral-50 relative flex h-10 items-center overflow-hidden rounded-lg border border-neutral-500 px-4 hover:border-violet-700'
+    'relative flex h-10 items-center overflow-hidden rounded-lg border border-neutral-500 px-4'
+  const containerClassEnabled = `${containerClassBase} bg-neutral-50 hover:border-violet-700`
+  const containerClassDisabled = `${containerClassBase} bg-neutral-300`
+  const containerClassError = `${containerClassEnabled} border-red-600`
+  const navClassBase = 'absolute right-0 flex h-full items-center gap-1 pr-4 pl-2'
+  const navClassEnabled = `${navClassBase} bg-neutral-50`
+  const navClassDisabled = `${navClassBase} bg-neutral-300`
 
   const handleDeleteAllClick = (ev: MouseEvent<SVGSVGElement>) => {
     ev.stopPropagation()
@@ -34,7 +42,9 @@ const SelectHead = ({
 
   return (
     <div
-      className={isError ? `${containerClassBase} border-red-600` : containerClassBase}
+      className={
+        disabled ? containerClassDisabled : isError ? containerClassError : containerClassEnabled
+      }
       onClick={onClick}
     >
       <div className="flex items-center gap-2.5 text-neutral-500">
@@ -48,7 +58,7 @@ const SelectHead = ({
             ))
           : placeholder || null}
       </div>
-      <div className="absolute right-0 flex h-full items-center gap-1 bg-neutral-50 pr-4 pl-2">
+      <div className={disabled ? navClassDisabled : navClassEnabled}>
         {chosenOptions.length ? (
           <XMark className="w-[18px]" onClick={handleDeleteAllClick} />
         ) : null}

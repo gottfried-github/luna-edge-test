@@ -1,6 +1,5 @@
-import { useState, useMemo, useContext, ChangeEvent } from 'react'
+import { useState, useMemo } from 'react'
 import { SelectOption } from '../../types'
-import { ErrorContext } from '../../contexts'
 import SelectHead from './SelectHead'
 import SelectDropdown from './SelectDropdown'
 
@@ -11,6 +10,7 @@ interface Props {
   errorText?: string
   helperText?: string
   placeholder?: string
+  disabled?: boolean
   onChange: (v: SelectOption[]) => void
   onBlur: () => void
 }
@@ -22,12 +22,12 @@ const Select = ({
   errorText,
   helperText,
   placeholder,
+  disabled,
   onChange,
   onBlur,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const [optionsFilter, setOptionsFilter] = useState('')
-  // const setError = useContext(ErrorContext)
 
   const optionsToRender = useMemo(() => {
     const optionsFiltered = optionsFilter
@@ -47,6 +47,8 @@ const Select = ({
   }
 
   const handleHeadClick = () => {
+    if (disabled) return
+
     if (isOpen) {
       handleClose()
     } else {
@@ -55,10 +57,14 @@ const Select = ({
   }
 
   const handleDeleteOption = (option: SelectOption) => {
+    if (disabled) return
+
     onChange(chosenOptions.filter(_option => _option.value !== option.value))
   }
 
   const handleDeleteAllOptions = () => {
+    if (disabled) return
+
     onChange([])
   }
 
@@ -95,6 +101,7 @@ const Select = ({
           isOpen={isOpen}
           isError={!!errorText}
           placeholder={placeholder}
+          disabled={disabled}
         />
         {isOpen ? (
           <SelectDropdown
